@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>Target 1</TargetName>
+      <TargetName>042</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -46,14 +46,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Objects\</OutputDirectory>
+          <OutputDirectory>.\</OutputDirectory>
           <OutputName>lamerange</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>1</CreateHexFile>
+          <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\Listings\</ListingPath>
+          <ListingPath>.\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -147,7 +147,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>11</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -161,7 +161,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -196,7 +196,7 @@
             <ldmm>1</ldmm>
             <ldXref>1</ldXref>
             <BigEnd>0</BigEnd>
-            <AdsALst>0</AdsALst>
+            <AdsALst>1</AdsALst>
             <AdsACrf>1</AdsACrf>
             <AdsANop>0</AdsANop>
             <AdsANot>0</AdsANot>
@@ -363,9 +363,9 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>STM32F042x6</Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\common\CMSIS\Include;..\common\CMSIS\Device\ST\STM32F0xx\Include;..\lamerange</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -407,14 +407,86 @@
       <Groups>
         <Group>
           <GroupName>CMSIS</GroupName>
-        </Group>
-        <Group>
-          <GroupName>board-support</GroupName>
           <Files>
             <File>
-              <FileName>clocking.c</FileName>
+              <FileName>system_stm32f0xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\common\clocking.c</FilePath>
+              <FilePath>..\common\CMSIS\Device\ST\STM32F0xx\Source\Templates\system_stm32f0xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f0xx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f042x6.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\common\CMSIS\Device\ST\STM32F0xx\Source\Templates\arm\startup_stm32f042x6.s</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>irq_handlers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\irq_handlers.c</FilePath>
+            </File>
+            <File>
+              <FileName>test_sandbox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\test_sandbox.c</FilePath>
+            </File>
+            <File>
+              <FileName>test_sandbox.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\test_sandbox.h</FilePath>
+            </File>
+            <File>
+              <FileName>irq_handlers.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\irq_handlers.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Board Support</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp_clocks.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp_clocks.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_power.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp_power.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_power.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\bsp_power.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_clocks.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\bsp_clocks.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_syscfg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp_syscfg.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_syscfg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\bsp_syscfg.h</FilePath>
             </File>
           </Files>
         </Group>
