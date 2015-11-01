@@ -6,7 +6,7 @@
 void BSP_PWR_HV_Setup(void)
 {
 	SET_BIT(RCC->AHBENR, RCC_AHBENR_GPIOAEN); 		/* тактирование */
-		SET_BIT(GPIOA->BSRRH, GPIO_BSRR_BR_7); 			/* ставим в гарантированный 0 */
+	SET_BIT(GPIOA->BSRRH, GPIO_BSRR_BR_7); 			/* ставим в гарантированный 0 */
 	SET_BIT(GPIOA->MODER, GPIO_MODER_MODER7_0);
 	CLEAR_BIT(GPIOA->MODER, GPIO_MODER_MODER7_1); 	/* General Purpose Output */
 	
