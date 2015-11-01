@@ -12,7 +12,54 @@
 #define HSI14_VALUE 14000000
 
 
-void BSP_Clock_Setup32MHz(void);
+void BSP_Clock_Setup32MHz(void)
+{
+	
+	const static int nops = 20000;
+	
+	/* включаем тактирование от внешнего генератора */
+	SET_BIT(RCC->CR, RCC_CR_HSEBYP);
+	SET_BIT(RCC->CR, RCC_CR_HSEON);
+	
+	CLEAR_BIT(RCC->CR, RCC_CR_PLLON);
+	
+	
+	/* ждём выключения PLL */
+	for (volatile int i = 0; i < nops; ++i) {
+		__NOP();
+	}
+
+	/* входное (HSEBYP) делим на 13 на PREDiv и умножаем на 16 на PLLMUL, SYSCLK идёт c PLL, PLL идёт с HSE */
+	SET_BIT(RCC->CFGR, RCC_CFGR_PLLMUL); /* PLLMUL = 1111 -> 16 */
+	SET_BIT(RCC->CFGR2, 13 - 1); /* plldiv = RCC->CFGR2 + 1 */
+	
+	/* PLLSRC = HSE */
+	WRITE_REG(RCC->CFGR, RCC->CFGR | (RCC_CFGR_PLLSRC_HSE_PREDIV << POSITION_VAL(RCC_CFGR_PLLSRC)));
+	
+	/* стартурем PLL */
+	SET_BIT(RCC->CR, RCC_CR_PLLON);
+	
+	
+	for (;;) {
+		/* ждём готовности PLL и HSE*/
+		if (READ_BIT(RCC->CR, RCC_CR_PLLRDY) && READ_BIT(RCC->CR, RCC_CR_HSERDY))
+			break;
+	}
+	
+	/* перенастраиваем FLASH */
+	SET_BIT(FLASH->ACR, FLASH_ACR_PRFTBE);
+	SET_BIT(FLASH->ACR, FLASH_ACR_LATENCY);
+	
+	/* SW = 10 (PLL) */
+	SET_BIT(RCC->CFGR, RCC_CFGR_SW_1);
+	CLEAR_BIT(RCC->CFGR, RCC_CFGR_SW_0);
+	
+	for (;;) {
+		/* ждём переключения SWS = 10 */
+		if (READ_BIT(RCC->CFGR, RCC_CFGR_SWS_1) && !READ_BIT(RCC->CFGR, RCC_CFGR_SWS_0))
+			break;
+	}
+}
 
 
 void BSP_Clock_GetFreqHz(BRD_ClockFreqs *bcf)
@@ -101,8 +148,8 @@ void BSP_Clock_GetFreqHz(BRD_ClockFreqs *bcf)
 	int apb_prescaler = apb_div_lookup[READ_BIT(RCC->CFGR, RCC_CFGR_PPRE) >> POSITION_VAL(RCC_CFGR_PPRE)];
 	
 	bcf->hlck = bcf->sysclk / ahb_prescaler;
-	bcf->apb1 = bcf->sysclk / apb_prescaler;
-	bcf->apb1_tim = bcf->apb1;
+	bcf->apb = bcf->sysclk / apb_prescaler;
+	bcf->apb_tim = bcf->apb;
 	bcf->systim = bcf->hlck / 8;
 	bcf->fclk = bcf->hlck;
 }
