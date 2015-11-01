@@ -6,8 +6,8 @@ typedef struct
 	int hlck,
 		systim,
 		fclk,
-		apb1,
-		apb1_tim,
+		apb,
+		apb_tim,
 		usbck,
 		sysclk;
 } BRD_ClockFreqs;
