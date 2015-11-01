@@ -463,6 +463,16 @@
               <FileType>5</FileType>
               <FilePath>.\irq_handlers.h</FilePath>
             </File>
+            <File>
+              <FileName>ownassert.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\ownassert.c</FilePath>
+            </File>
+            <File>
+              <FileName>ownassert.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\ownassert.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
