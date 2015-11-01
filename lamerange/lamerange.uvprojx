@@ -352,20 +352,20 @@
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
             <Strict>0</Strict>
-            <EnumInt>0</EnumInt>
-            <PlainCh>0</PlainCh>
+            <EnumInt>1</EnumInt>
+            <PlainCh>1</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>STM32F042x6</Define>
               <Undefine></Undefine>
-              <IncludePath>..\common\CMSIS\Include;..\common\CMSIS\Device\ST\STM32F0xx\Include;..\lamerange</IncludePath>
+              <IncludePath>..\common\CMSIS\Include;..\common\CMSIS\Device\ST\STM32F0xx\Include;..\lamerange;..\common</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -422,6 +422,16 @@
               <FileName>startup_stm32f042x6.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\common\CMSIS\Device\ST\STM32F0xx\Source\Templates\arm\startup_stm32f042x6.s</FilePath>
+            </File>
+            <File>
+              <FileName>misc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\misc.h</FilePath>
+            </File>
+            <File>
+              <FileName>misc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\misc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -487,6 +497,16 @@
               <FileName>bsp_syscfg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\bsp_syscfg.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_tx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp_tx.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_tx.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\bsp_tx.h</FilePath>
             </File>
           </Files>
         </Group>
