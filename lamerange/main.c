@@ -1,15 +1,17 @@
 #include "stm32f0xx.h"
 
-#define SANDBOX
+#define SANDBOX 
+/* sandbox-режим для тестирования фич */
 
-#ifdef SANDBOX
+#ifdef SANDBOX 
 #include "test_sandbox.h"
 #endif
 
+/* точка входа */
 int main(void)
 {
 #ifdef SANDBOX
-	SBX_main();
+	SBX_main(); 
 	return 0;
 #else
 	
