@@ -133,11 +133,15 @@ __Vectors_Size  EQU  __Vectors_End - __Vectors
 ; Reset handler routine
 Reset_Handler    PROC
                  EXPORT  Reset_Handler                 [WEAK]
-				 IMPORT  main
-                 BLX     R0
-                 LDR     R0, =main
-                 BX      R0
-                 ENDP
+        IMPORT  main
+        IMPORT  SystemInit  
+
+        LDR     R0, =__initial_sp          ; set stack pointer 
+        MSR     MSP, R0  
+
+        LDR     R0, =main
+        BX      R0
+        ENDP
 
 ; Dummy Exception Handlers (infinite loops which can be modified)
 
