@@ -34,7 +34,7 @@ void BSP_Clock_Setup32MHz(void)
 	SET_BIT(RCC->CFGR2, 13 - 1); /* plldiv = RCC->CFGR2 + 1 */
 	
 	/* PLLSRC = HSE */
-	WRITE_REG(RCC->CFGR, RCC->CFGR | (RCC_CFGR_PLLSRC_HSE_PREDIV << POSITION_VAL(RCC_CFGR_PLLSRC)));
+	WRITE_REG(RCC->CFGR, RCC->CFGR | RCC_CFGR_PLLSRC_HSE_PREDIV);
 	
 	/* стартурем PLL */
 	SET_BIT(RCC->CR, RCC_CR_PLLON);
@@ -62,9 +62,9 @@ void BSP_Clock_Setup32MHz(void)
 }
 
 
-void BSP_Clock_GetFreqHz(BRD_ClockFreqs *bcf)
+void BSP_Clock_GetFreqHz(BSP_Clock_Freqs *bcf)
 {
-	memset(bcf, 0, sizeof(BRD_ClockFreqs));
+	memset(bcf, 0, sizeof(BSP_Clock_Freqs));
 	
 	int sysclk_source = READ_BIT(RCC->CFGR, RCC_CFGR_SWS) >> POSITION_VAL(RCC_CFGR_SWS);	
 	
@@ -136,6 +136,7 @@ void BSP_Clock_GetFreqHz(BRD_ClockFreqs *bcf)
 					break;
 				}
 			}
+			break;
 		}
 		case 0x03: /* HSI48 */
 		{
