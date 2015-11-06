@@ -3,12 +3,25 @@
 #include "bsp_tx.h"
 
 
+#define READHILO (READ_BIT(GPIOF->ODR, GPIO_ODR_8))
+
 void toggle_tx_switch(void)
 {
-	if (READ_BIT(GPIOF->ODR, GPIO_ODR_8))
+	if (READHILO)
 		SET_BIT(GPIOF->BSRRH, GPIO_BSRR_BR_8);
 	else
 		SET_BIT(GPIOF->BSRRL, GPIO_BSRR_BS_8);
+}
+	
+
+void lowside(void)
+{
+	SET_BIT(GPIOB->BSRRH, GPIO_BSRR_BR_8);
+}
+
+void highside(void)
+{
+	SET_BIT(GPIOB->BSRRL, GPIO_BSRR_BS_8);
 }
 
 void BSP_TX_Setup(void)
@@ -26,6 +39,9 @@ void BSP_TX_Setup(void)
 	CLEAR_BIT(GPIOF->MODER, GPIO_MODER_MODER1_1);
 	/* тянитолкай */
 	CLEAR_BIT(GPIOF->OTYPER, GPIO_OTYPER_OT_1);
+	/* по умолчанию включен приём (NRXEN = PF1 = 0) */
+	SET_BIT(GPIOF->BSRRH, GPIO_BSRR_BR_1);
+	
 	
 	/* --------------------- готовим PB8 ----------------------- */
 	/* тактирование */
@@ -41,7 +57,12 @@ void BSP_TX_Setup(void)
 	
 }
 
-void BSP_TX_Enable(void);
+void BSP_TX_Enable(void)
+{
+	SET_BIT(GPIOF->BSRRL, GPIO_BSRR_BS_1);
+	lowside();
+	highside();
+}
 
 void BSP_TX_Disable(void);
 
