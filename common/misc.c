@@ -5,13 +5,10 @@
 #include "misc.h"
 
 
-#define BITHACK_FAST
-
 /* подсчёт нулей от начала числа до первой 1 
    http://embeddedgurus.com/state-space/2014/09/fast-deterministic-and-portable-counting-leading-zeros/ */
 uint32_t count_leading_zeros(uint32_t value)
 {
-#ifdef BITHACK_FAST
 	static uint8_t const clz_lkup[] = {
         32U, 31U, 30U, 30U, 29U, 29U, 29U, 29U,
         28U, 28U, 28U, 28U, 28U, 28U, 28U, 28U
@@ -57,11 +54,7 @@ uint32_t count_leading_zeros(uint32_t value)
     }
     return (uint32_t)clz_lkup[value >> n] - n;
 	
-#elif (defined BITHACK_OBVIOUS)
-	
-#else
-#error "Please define at least something here..."
-#endif	
+
 	
 }
 
@@ -71,7 +64,6 @@ uint32_t reverse_bits(uint32_t value)
 {
 	unsigned int c; // c will get v reversed
 	
-#ifdef BITHACK_FAST
 	static const unsigned char BitReverseTable256[256] = 
 	{
 	#   define R2(n)     n,     n + 2*64,     n + 1*64,     n + 3*64
@@ -87,22 +79,6 @@ uint32_t reverse_bits(uint32_t value)
 		(BitReverseTable256[(value >> 16) & 0xff] << 8) |
 		(BitReverseTable256[(value >> 24) & 0xff]);
 	
-#elif (defined BITHACK_OBVIOUS)
-
-	c = value; // r will be reversed bits of v; first get LSB of v
-	int s = sizeof(c) * CHAR_BIT - 1; // extra shift needed at end
-
-	for (v >>= 1; v; v >>= 1)
-	{   
-	  c <<= 1;
-	  c |= v & 1;
-	  s--;
-	}
-	c <<= s; // shift when v's highest bits are zero
-	
-#else
-#error "Please define at least something here..."
-#endif	
 	
 	return c;
 }
