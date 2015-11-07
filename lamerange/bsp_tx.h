@@ -19,7 +19,7 @@ void BSP_TX_StopPulse(void);
 /* посылает меандр 40 кГц на HI-LO в течение 10 мс (non-blocking) */
 void BSP_TX_Send10msPulse(void);
 
-/* обработчик прерывания TIM5 */
-void BSP_TX_TIM5_IRQHandler(void);
+/* обработчик прерывания TIM14 */
+void BSP_TX_TIM14_IRQHandler(void);
 
 #endif
