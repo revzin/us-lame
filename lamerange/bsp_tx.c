@@ -51,7 +51,7 @@ void BSP_TX_Setup(void)
 	
 	/* --------------------- готовим PB8 ----------------------- */
 	/* тактирование */
-	SET_BIT(RCC->AHBENR, RCC_AHBENR_GPIOFEN);
+	SET_BIT(RCC->AHBENR, RCC_AHBENR_GPIOBEN);
 	/* ставим в 0 */
 	SET_BIT(GPIOB->BSRRH, GPIO_BSRR_BR_8);
 	/* режим вывода */
