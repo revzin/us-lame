@@ -18,4 +18,7 @@ void BSP_Clock_Setup32MHz(void);
 /* записывает в bcf частоты тактирования шин */
 void BSP_Clock_GetFreqHz(BSP_Clock_Freqs *bcf);
 
+/* обработчик прерывания CSS Failure */
+void BSP_CSS_FailureHandler(void);
+
 #endif

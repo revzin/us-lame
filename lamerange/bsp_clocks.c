@@ -46,6 +46,9 @@ void BSP_Clock_Setup32MHz(void)
 			break;
 	}
 	
+	/* Clock Security System */
+	SET_BIT(RCC->CR, RCC_CR_CSSON);
+	
 	/* перенастраиваем FLASH */
 	SET_BIT(FLASH->ACR, FLASH_ACR_PRFTBE);
 	SET_BIT(FLASH->ACR, FLASH_ACR_LATENCY);
@@ -156,5 +159,11 @@ void BSP_Clock_GetFreqHz(BSP_Clock_Freqs *bcf)
 }
 
 
-
+void BSP_CSS_FailureHandler(void)
+{
+	/* сброс флага */
+	SET_BIT(RCC->CIR, RCC_CIR_CSSC);
+	/* контроллер в ресет */
+	NVIC_SystemReset();
+}
 
