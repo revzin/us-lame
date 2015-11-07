@@ -59,11 +59,13 @@ void BSP_TX_Setup(void)
 	CLEAR_BIT(GPIOB->MODER, GPIO_MODER_MODER8_1);
 	/* тянитолкай */
 	CLEAR_BIT(GPIOB->OTYPER, GPIO_OTYPER_OT_8);
+	/* высокая скорость переключения */
+	SET_BIT(GPIOB->OSPEEDR, GPIO_OSPEEDR_OSPEEDR8);
 	
 	
 	/* ----------------------- TIM14 --------------------------- */
 	/* TIM14 готовим к генерации 80 кГц, чтобы переключать HI-LO */
-	/* что даст период переключения 40 кГц */
+	/* что даст период переключения HI-LO в 40 кГц */
 	SET_BIT(RCC->APB1ENR, RCC_APB1ENR_TIM14EN);
 	/* Делим 32 МГц на 200 и получаем 160 кГц */
 	WRITE_REG(TIM14->PSC, 200 - 1); /* prescaler = PSC + 1 */
@@ -86,6 +88,7 @@ void BSP_TX_Enable(void)
 void BSP_TX_Disable(void)
 {
 	SET_BIT(GPIOF->BSRRH, GPIO_BSRR_BR_1);
+	BSP_TX_StopPulse();
 }
 
 void BSP_TX_StartPulse(void)
@@ -96,6 +99,7 @@ void BSP_TX_StartPulse(void)
 void BSP_TX_StopPulse(void)
 {
 	CLEAR_BIT(TIM14->CR1, TIM_CR1_CEN);
+	lowside();
 }
 
 void BSP_TX_Send10msPulse(void);
