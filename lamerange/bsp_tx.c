@@ -6,11 +6,11 @@
 
 /* TODO всё это можно переделать так, чтобы TIM16 сам дёргал HI-LO, но позже */
 
-#define READHILO (READ_BIT(GPIOF->ODR, GPIO_ODR_8))
+#define READHILO (READ_BIT(GPIOB->ODR, GPIO_ODR_8))
 
 void lowside(void)
 {
-	SET_BIT(GPIOB->BSRRH, GPIO_BSRR_BR_8);
+	CLEAR_BIT(GPIOB->ODR, GPIO_ODR_8); // wtf
 }
 
 void highside(void)
@@ -65,10 +65,10 @@ void BSP_TX_Setup(void)
 	/* TIM14 готовим к генерации 80 кГц, чтобы переключать HI-LO */
 	/* что даст период переключения 40 кГц */
 	SET_BIT(RCC->APB1ENR, RCC_APB1ENR_TIM14EN);
-	/* Делим 32 МГц на 32000 и получаем 1 кГц */
-	WRITE_REG(TIM14->PSC, 32000 - 1); /* prescaler = PSC + 1 */
-	/* Заставляем считать до 80 */
-	WRITE_REG(TIM14->ARR, 80);
+	/* Делим 32 МГц на 200 и получаем 160 кГц */
+	WRITE_REG(TIM14->PSC, 200 - 1); /* prescaler = PSC + 1 */
+	/* Заставляем считать до 1 - частота делится на 2 = 80 кГц*/
+	WRITE_REG(TIM14->ARR, 1);
 	/* включаем прерывание */
 	WRITE_REG(TIM14->DIER, TIM_DIER_UIE);
 	NVIC_EnableIRQ(TIM14_IRQn);
@@ -102,7 +102,7 @@ void BSP_TX_Send10msPulse(void);
 
 void BSP_TX_TIM14_IRQHandler(void)
 {
-	toggle_tx_switch();
 	/* очищаем запрос на прерывание */
 	CLEAR_BIT(TIM14->SR, TIM_SR_UIF);
+	toggle_tx_switch();
 }

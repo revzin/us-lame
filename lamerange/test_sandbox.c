@@ -22,4 +22,6 @@ void SBX_main(void)
 	BSP_TX_StartPulse();
 	
 	for (;;) {}
+
+	BSP_TX_Disable();
 }
