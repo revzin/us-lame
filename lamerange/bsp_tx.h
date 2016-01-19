@@ -22,4 +22,7 @@ void BSP_TX_Send10msPulse(void);
 /* обработчик прерывания TIM14 */
 void BSP_TX_TIM14_IRQHandler(void);
 
+void BSP_TX_SysTickHandler(void);
+void BSP_TX_StartTxSequence(void);
+
 #endif

@@ -18,10 +18,14 @@ void SBX_main(void)
 	BSP_PWR_5VA_Enable();
 	
 	BSP_TX_Setup();
-	BSP_TX_Enable();
-	BSP_TX_StartPulse();
+	//BSP_TX_Enable();
+	//BSP_TX_StartPulse();
+	
+	BSP_TX_StartTxSequence();
 	
 	for (;;) {}
 
+	
+		
 	BSP_TX_Disable();
 }
